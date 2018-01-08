@@ -1,0 +1,23 @@
+consoleEntries.txt
+
+
+Game.spawns['Straylight'].room.createConstructionSite( 23, 22, STRUCTURE_ROAD );
+
+Game.spawns['Straylight'].spawnCreep( [WORK, CARRY, MOVE], 'Builder1',
+    { memory: { role: 'builder' } } );
+
+
+
+
+Game.spawns['Straylight'].spawnCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE],
+    'HarvesterBig',
+    { memory: { role: 'harvester' } } );
+
+
+Game.spawns['Straylight'].spawnCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE],'UpgraderBig',{ memory: { role: 'upgrader' } } );
+
+
+//HOW TO MOVE A CREEP OFF YOUR SPOT
+Game.creeps[name].moveTo(x, y);
+
+//waiting since Game.time
