@@ -8,7 +8,7 @@ var roleMultiharvest = require('role.multiharvest');
 module.exports.loop = function () {
     var activecreeps = 0;
 
-    // if a creep has
+    // if a creep has expired, remove its memory entries
     for(var name in Memory.creeps) {
         if(!Game.creeps[name]) {
             delete Memory.creeps[name];
