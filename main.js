@@ -3,6 +3,8 @@ var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleSBuilder = require('role.sbuilder');
 var roleMultiharvest = require('role.multiharvest');
+
+var role
 //var roleMiner = require('role.miner');
 
 module.exports.loop = function () {
@@ -31,11 +33,12 @@ module.exports.loop = function () {
     var multiharvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'multiharvest');
     //console.log('Multiharvesters: ' + multiharvesters.length);
 
-    if(multiharvesters.length < 4) {
+    if(multiharvesters.length < 6) {
         var newName = 'Fran' + Game.time;
         console.log('Spawning new multiharvester: ' + newName);
-        Game.spawns['Straylight'].spawnCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], newName,
-            {memory: {role: 'multiharvest'}});
+        Game.spawns['Straylight'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE.MOVE,MOVE,MOVE,MOVE,MOVE], newName,{memory: {role: 'multiharvest'}});
+        //Game.spawns['Straylight'].spawnCreep([WORK,CARRY,MOVE], newName,
+
     }
 
     /**
@@ -56,7 +59,8 @@ module.exports.loop = function () {
     if(upgraders.length < 4) {
         var newName = 'Felix' + Game.time;
         console.log('Spawning new upgrader: ' + newName);
-        Game.spawns['Straylight'].spawnCreep([WORK,WORK,CARRY,CARRY,MOVE,MOVE], newName,
+        //Game.spawns['Straylight'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
+        Game.spawns['Straylight'].spawnCreep([WORK,CARRY,MOVE,MOVE], newName,
             {memory: {role: 'upgrader'}});
     }
 
@@ -83,7 +87,7 @@ module.exports.loop = function () {
     if(Game.spawns['Straylight'].spawning) {
         var spawningCreep = Game.creeps[Game.spawns['Straylight'].spawning.name];
         Game.spawns['Straylight'].room.visual.text(
-            '🛠️' + spawningCreep.memory.role,
+            'ð ï¸' + spawningCreep.memory.role,
             Game.spawns['Straylight'].pos.x + 1,
             Game.spawns['Straylight'].pos.y,
             {align: 'left', opacity: 0.8});
@@ -96,36 +100,51 @@ module.exports.loop = function () {
     }
 
 
-
     var tower = Game.getObjectById('5a5063e77eb2135e2c99df24');
-    if(tower) {
+    if (tower) {
 
-/**
-        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => structure.hits < 5000 && structure.structureType == STRUCTURE_ROAD
-        });
-**/
+        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if (closestHostile) {
+            tower.attack(closestHostile);
+        }
+    };
+
+
+        var repairRoads = true;
+        if (repairRoads == true) {
+
+            var closestDamagedRoad = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => structure.hits < 5000 && structure.structureType == STRUCTURE_ROAD
+            });
+            if (closestDamagedRoad) {
+                tower.repair(closestDamagedRoad);
+            }
+        }
+
 /**
         var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => structure.hits < 2500 && structure.structureType == STRUCTURE_WALL
         });
 
 **/
-/**
-        var closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, {
+        var closestDamagedContainer = tower.pos.findClosestByRange(FIND_STRUCTURES, {
             filter: (structure) => structure.hits < 250000 && structure.structureType == STRUCTURE_CONTAINER
         });
 
-               if(closestDamagedStructure) {
-            tower.repair(closestDamagedStructure);
-        }
-**/
-        var closestHostile = tower.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-        if(closestHostile) {
-            tower.attack(closestHostile);
-        }
-    }
+        if(closestDamagedContainer) {
+            //console.log(closestDamagedContainer.id);
+            tower.repair(closestDamagedContainer);
+        };
 
+
+/**
+    var roadlocations = [[15,29], [16,30], [17,31], [18,32], [19,33], [20,33], [21,33], [22,33], [22,34], [22,35], [22,36], [22,37], [22,38], [22,39], [22,40], [22,41], [22,42], [22,43], [22,44], [23,44], [24,44], [25,44], [26,44], [27,44], [28,44], [29,44], [30,44], [31,44], [32,44], [33,44], [34,44], [35,44], [36,46], [37,47], [37,48], [37,49]];
+    console.log('duh ' + roadlocations.length);
+    for (var roadloc in roadlocations)  {
+        console.log(roadloc[0] + ', ' + roadloc[1]);
+        };
+
+**/
 
     for(var name in Game.creeps) {
 

@@ -13,16 +13,27 @@ var roleHarvester = {
                 filter: { structureType: STRUCTURE_CONTAINER }
             });
 
+
+            var containersWithEnergy = Game.spawns['Straylight'].room.find(FIND_STRUCTURES, {
+             filter: (i) => i.structureType == STRUCTURE_CONTAINER && i.store[RESOURCE_ENERGY] > 0
+            });
+            console.log('derp' + containersWithEnergy);
+            //for(var id in containersWithEnergy) {
             for(var id in containers) {
                 var thisContainer = containers[id];
-                console.log(thisContainer.pos + ' ' + thisContainer.energyCapacity);
-                if(thisContainer.energy < thisContainer.energyCapacity) {
+                console.log('yarp' + thisContainer.pos + ' ' + thisContainer.store[RESOURCE_ENERGY]);
+                if(thisContainer.store[RESOURCE_ENERGY] < thisContainer.storeCapacity) {
+                    // if(creep.withdraw(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    //      creep.moveTo(storage);
                     if(creep.transfer(thisContainer, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(thisContainer.pos);
-                     }
+                    }
+                } else {
+                    //creep.moveTo(26,9);
+                    creep.moveTo(Game.flags.Flag2);
                 }
             }
-
+            //creep.moveTo(Game.flags.Flag2);
         }
     }
 };
