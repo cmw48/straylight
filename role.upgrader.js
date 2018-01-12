@@ -67,30 +67,30 @@ var roleUpgrader = {
             var sources = creep.room.find(FIND_SOURCES);
             if (Game.getObjectById('5982ff24b097071b4adc2278').energy = 0) {
               // go get filled up at container instead
-            var containersWithEnergy = Game.spawns['Straylight'].room.find(FIND_STRUCTURES, {
-               filter: (i) => i.structureType == STRUCTURE_CONTAINER && i.store[RESOURCE_ENERGY] > 0
-              });
-              console.log('nerp' + containersWithEnergy);
-              //for(var id in containersWithEnergy) {
-              for(var id in containers) {
-                  var thisContainer = containers[id];
-                  console.log('yerp' + thisContainer.pos + ' ' + thisContainer.store[RESOURCE_ENERGY]);
-                  if(thisContainer.store[RESOURCE_ENERGY] < 0) {
-                      // if(creep.withdraw(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                      //      creep.moveTo(storage);
-                      if(creep.withdraw(thisContainer, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                          creep.moveTo(thisContainer.pos);
-                      }
-                  } else {
-                      //creep.moveTo(26,9);
-                      creep.moveTo(Game.flags.Flag2);
-                  }
+              var containersWithEnergy = Game.spawns['Straylight'].room.find(FIND_STRUCTURES, {
+                 filter: (i) => i.structureType == STRUCTURE_CONTAINER && i.store[RESOURCE_ENERGY] > 0
+                 });
+                 console.log('nerp' + containersWithEnergy);
+                 //for(var id in containersWithEnergy) {
+                 for(var id in containers) {
+                    var thisContainer = containers[id];
+                    console.log('yerp' + thisContainer.pos + ' ' + thisContainer.store[RESOURCE_ENERGY]);
+                    if(thisContainer.store[RESOURCE_ENERGY] < 0) {
+                        // if(creep.withdraw(storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                        //      creep.moveTo(storage);
+                        if(creep.withdraw(thisContainer, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(thisContainer.pos);
+                        }
+                    } else {
+                        //creep.moveTo(26,9);
+                        creep.moveTo(Game.flags.Flag2);
+                    }
+                 }
+              if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+                  creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+              }
             }
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
-        }
-
+          }
 /**
 
 
