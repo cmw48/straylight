@@ -39,44 +39,8 @@ Credits: 0.000
 SHARD1 / ROOM E19N38
 Owner:   Neuromancer
 Novice area (3 days left)
-Sign: “Keep Chillin”
-—    kc9
-10/22/2017
-WORLD MAP
-INVASION
-Type	Size
-Melee
-Ranged
-Healer
-Small
-Big
-Boosted Create an invader
-CURSOR
-X:  Y:  Terrain:
 
-Script
-Console
-Memory
 
-
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-consoleEntries.txt
 Game.spawns['Straylight'].room.createConstructionSite( 23, 22, STRUCTURE_ROAD );
 Game.spawns['Straylight'].spawnCreep( [WORK,WORK,WORK,WORK,CARRY,MOVE,MOVE],
  'HarvesterBig',
@@ -96,5 +60,3 @@ role.multiharvest
 role.sbuilder
 role.tender
 role.upgrader
-
-New module name...
