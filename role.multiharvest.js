@@ -14,6 +14,13 @@ var roleMultiharvest     = {
                     creep.moveTo(tower, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
 
+                    var targets = creep.room.find(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return (structure.structureType == STRUCTURE_TOWER) &&
+                                structure.energy < structure.energyCapacity;
+                        }
+                    });
+
             } else {
                 if (Game.spawns['Straylight'].memory.rebuild) {
                  var targets = creep.room.find(FIND_STRUCTURES, {
@@ -22,7 +29,9 @@ var roleMultiharvest     = {
                                 structure.energy < structure.energyCapacity;
                         }
                 });
+
                 } else {
+
                     var targets = creep.room.find(FIND_STRUCTURES, {
                         filter: (structure) => {
                             return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_TOWER || structure.structureType == STRUCTURE_SPAWN) &&
@@ -30,10 +39,16 @@ var roleMultiharvest     = {
                         }
                     });
                 }
-                if(targets.length > 0) {
 
-                    if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                       creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                if(targets.length > 0) {
+                    var extensionTarget = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                        filter: (s) => s.structureType == STRUCTURE_EXTENSION
+                                    && s.energy < s.energyCapacity
+                    });
+
+
+                    if(creep.transfer(extensionTarget, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                       creep.moveTo(extensionTarget, {visualizePathStyle: {stroke: '#ffffff'}});
                     }
                 } else {
                     creep.moveTo(Game.flags.Flag1);

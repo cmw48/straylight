@@ -12,6 +12,7 @@ var roleClaimer = {
      // get loaded
      // claim / reserve
      // repeat
+     /**
      if(creep.memory.seeking) {
          if(creep.pos !=  RoomPosition(creep.memory.destx, creep.memory.desty, creep.memory.destroom )) {
              creep.memory.seeking = true;
@@ -22,35 +23,33 @@ var roleClaimer = {
              creep.say('arrived...');
          };
      } else {
+**/
 
 
-        if(creep.room.controller) {
-             if(creep.memory.claiming && creep.carry.energy == 0) {
-               creep.memory.claiming = false;
-               creep.say('charging...');
-	       }
 
+     if(creep.memory.seeking && creep.carry.energy == 0) {
+           creep.memory.seeking = false;
+           creep.say('harvest');
+     }
+     if(!creep.memory.seeking && creep.carry.energy == creep.carryCapacity) {
+         creep.memory.seeking = true;
+         creep.say('upgrade');
+     }
 
-	    if(!creep.memory.claiming && creep.carry.energy == creep.carryCapacity) {
-	        creep.memory.claiming = true;
-	        creep.say('reserving...');
-	    }
-	    if(creep.memory.claiming && creep.carry.energy > 0) {
-            if(creep.reserveController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-               creep.moveTo(creep.room.controller);
-            } else {
-              var sources = creep.room.find(FIND_SOURCES);
-              if(creep.harvest(sources[1]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[1], {visualizePathStyle: {stroke: '#ffaa00'}});
-              }
-            }
-
-        }
+     if(creep.memory.seeking) {
+           if(creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+               creep.moveTo(creep.room.controller, {visualizePathStyle: {stroke: '#ffffff'}});
+           }
+       }
+       else {
+           var sources = creep.room.find(FIND_SOURCES);
+           if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+               creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+           }
+       }
 
 
       }
-    }
-  }
 };
 
 module.exports = roleClaimer;

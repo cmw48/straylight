@@ -1,5 +1,5 @@
 consoleEntries.txt
-
+a scratchpad for things to paste in the console
 
 Game.spawns['Straylight'].room.createConstructionSite( 23, 22, STRUCTURE_ROAD );
 
@@ -24,8 +24,8 @@ Game.creeps[name].moveTo(x, y);
 5a546f4859b5d10d959d5deb
 
 
-🚧 build
-🔄 harvest
+ð§ build
+ð harvest
 
 
 Neuromancer

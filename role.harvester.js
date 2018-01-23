@@ -2,6 +2,15 @@ var roleHarvester = {
 
     run: function(creep) {
 
+        // get all the other harvester creep ids
+        //if (!preferredTarget) {
+            // this creep needs a preferred target
+            // index all targets
+            // index all creeps
+            // are there any targets that don't have at least one creep
+        //}
+
+
         // if you are dumping and get to zero, go load up
         if(creep.memory.working == 'dumping' && creep.carry.energy == 0) {
             creep.memory.working = 'loading';
@@ -16,17 +25,37 @@ var roleHarvester = {
 
         //  if you are loading
         if(creep.memory.working == 'loading') {
-            // go to source and get energy
-            var sources = creep.room.find(FIND_SOURCES);
-            if(creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0]);
+            //console.log(creep.name + ' is trying to load...')
+            var preferredSource = creep.memory.preferredSource;
+            if (preferredSource) {
+                activesource = Game.getObjectById(creep.memory.preferredSource);
+            //console.log('preferred source is ...' + activesource)
+            } else {
+                // go to source and get energy
+                var sources = creep.room.find(FIND_SOURCES);
+                var activesource = sources[0]
             }
 
+            if(creep.harvest(activesource) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(activesource);
+                //console.log(creep.name + 'just moved')
+            } else if (creep.harvest(activesource) == -6) {
+                // error checking
+                console.log('activesource is dry - dump what we got..')
+                creep.memory.working = 'dumping';
+                creep.say(creep.memory.working);
+            console.log(creep.name + ' dumping a short load...');
+            } else {
+                console.log('uncaught harvester error' + creep.harvest(activesource));
+            }
+            //console.log(creep.name + ' not moving');
         } else {
             // you're not loading, so you must be dumping
             var containers = Game.spawns['Straylight'].room.find(FIND_STRUCTURES, {
                 filter: { structureType: STRUCTURE_CONTAINER }
             });
+
+            var roomStorage = Game.spawns['Straylight'].room.storage;
 
 
             var energyContainers = Game.spawns['Straylight'].room.find(FIND_STRUCTURES, {
@@ -40,26 +69,43 @@ var roleHarvester = {
 
             for(var id in energyContainersThatNeedEnergy) {
                 var thisContainer = energyContainersThatNeedEnergy[id];
-                console.log('yarp' + thisContainer.pos + ' ' + thisContainer.store[RESOURCE_ENERGY]);
+                //console.log('container at ' + thisContainer.pos + ' ' + thisContainer.store[RESOURCE_ENERGY]);
             };    // does this container need energy?
 
-            var preferredTarget = false;
+            var preferredTarget = creep.memory.preferredTarget;
             if (preferredTarget) {
-                // pass
-            } else {
-                var Container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
-                    filter: (s) => s.structureType == STRUCTURE_CONTAINER
-                                && s.store[RESOURCE_ENERGY] >= 0
-                });
-            }
+                Container = Game.getObjectById(creep.memory.preferredTarget);
+        /**
+                if (Container.energy == Container.energyCapacity) {
 
+                    var Container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                        filter: (s) => {
+                            return (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_TOWER) &&
+                                s.energy < s.energyCapacity;
+                        }
+                });
+                }
+        **/
+            } else {
+                console.log('no pref target for harvester')
+
+                    var Container = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+                        filter: (s) => {
+                            return (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_TOWER) &&
+                                s.energy < s.energyCapacity;
+                        }
+            });
+
+            }
             if(creep.transfer(Container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(Container)
             } else {
-                console.log('transfer successful.');
+                console.log('Harv error' + (creep.transfer(Container, RESOURCE_ENERGY)))
+                //console.log('transfer successful.');
             };
 
         }
+
     }
 };
 

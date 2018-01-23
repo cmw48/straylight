@@ -9,3 +9,6 @@ SHARD2 / ROOM E19N38
 ROOM CONTROLLER ID: 5982ff24b097071b4adc2277
 Level: 5  Progress: 127K / 1.21M
 716K control points
+
+two rooms 180122 - added E19N37
+E19N38 at lvl 6  763K of 3.64M
