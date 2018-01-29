@@ -17,9 +17,24 @@ var body02 = [WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE]
 module.exports.loop = function () {
 
 /**
-        var roadlocations = [[14,30], [13,31], [12,32], [11,33], [10,32], [9,31], [8,31], [7,30], [6,29], [6,28], [5,28], [4,28], [3,28], [6,27], [6,26], [7,25], [8,24], [9,23], [10,22], [10,21], [10,20], [11,19], [12,18], [13,17], [14,16], [14,15], [14,14], [14,13], [15,12], [16,11], [17,10], [18,9], [19,9], [20,10], [21,11], [22,11], [22,12], [22,13], [23,13], [24,13], [25,13], [26,13], [27,13], [26,12], [26,11], [26,10], [26,9], [27,9], [28,9], [29,9]];
-        //var roadlocations = [[15,29], [16,30], [17,31], [18,32], [19,33], [20,33], [21,33], [22,33], [22,34], [22,35], [22,36], [22,37], [22,38], [22,39], [22,40], [22,41], [22,42], [22,43], [22,44], [23,44], [24,44], [25,44], [26,44], [27,44], [28,44], [29,44], [30,44], [31,44], [32,44], [33,44], [34,44], [35,45], [36,46], [37,47], [38,48], [37,49]];
-        //var roadlocations = [[10,20], [12,34], [12,35], [13,35], [12,35], [11,36], [10,37], [9,36], [10,35], [11,34], [10,36], [9,38], [8,37], [8,38], [7,38], [8,39], [7,39], [6,39], [5,39], [4,39], [3,39], [2,38], [2, 40], [2,42], [3,40], [3,42], [4,40], [5,40], [5,42], [6,40], [7,40], [7,42], [8,40], [9, 41], [8,41], [7,41], [6,41], [5,41], [3,41], [2,41], [2,43], [2,44], [3,44], [4,43], [5,43], [6,43], [7,43], [8,43], [8,36], [7,35], [6,34], [6,33], [6,32], [6,30], [5,30], [4,30], [3,30], [2,30],[6,31], [5,32], [4,32], [3,32], [7,34], [7,35], [8,36], [7,33], [7,32], [7,31]];
+        // this code cycles through an array of road locations and determines if any roads need to be rebuilt
+        // TODO: move this to a separate function and call it only under specific circumstances
+        // TODO: this needs to take multiple rooms into account
+        // TODO:  consider possibly do something similar for wall building and come up with a separate app to
+        var upperroadlocations = [[14,30], [13,31], [12,32], [11,33], [10,32], [9,31], [8,31], [7,30], [6,29], [6,28],
+              [5,28], [4,28], [3,28], [6,27], [6,26], [7,25], [8,24], [9,23], [10,22], [10,21], [10,20], [11,19], [12,18],
+              [13,17], [14,16], [14,15], [14,14], [14,13], [15,12], [16,11], [17,10], [18,9], [19,9], [20,10], [21,11],
+              [22,11], [22,12], [22,13], [23,13], [24,13], [25,13], [26,13], [27,13], [26,12], [26,11], [26,10], [26,9],
+              [27,9], [28,9], [29,9]];
+        var exitroadlocations = [[15,29], [16,30], [17,31], [18,32], [19,33], [20,33], [21,33], [22,33], [22,34], [22,35],
+            [22,36], [22,37], [22,38], [22,39], [22,40], [22,41], [22,42], [22,43], [22,44], [23,44], [24,44], [25,44], [26,44],
+            [27,44], [28,44], [29,44], [30,44], [31,44], [32,44], [33,44], [34,44], [35,45], [36,46], [37,47], [38,48], [37,49]];
+        var lowerroadlocations = [[10,20], [12,34], [12,35], [13,35], [12,35], [11,36], [10,37], [9,36], [10,35], [11,34],
+            [10,36], [9,38], [8,37], [8,38], [7,38], [8,39], [7,39], [6,39], [5,39], [4,39], [3,39], [2,38], [2, 40], [2,42],
+            [3,40], [3,42], [4,40], [5,40], [5,42], [6,40], [7,40], [7,42], [8,40], [9, 41], [8,41], [7,41], [6,41], [5,41],
+            [3,41], [2,41], [2,43], [2,44], [3,44], [4,43], [5,43], [6,43], [7,43], [8,43], [8,36], [7,35], [6,34], [6,33],
+            [6,32], [6,30], [5,30], [4,30],        [3,30], [2,30],[6,31], [5,32], [4,32], [3,32], [7,34], [7,35], [8,36], [7,33],
+            [7,32], [7,31]];
 
         for (var roadloc in roadlocations)  {
           var road = false;
@@ -55,9 +70,7 @@ module.exports.loop = function () {
 
 
 
-
-
-
+    //count creeps alive and remove inactive creeps from memory
     var activecreeps = 0;
 
     // if a creep has expired, remove its memory entries
@@ -65,16 +78,28 @@ module.exports.loop = function () {
         if(!Game.creeps[name]) {
             delete Memory.creeps[name];
             console.log('Clearing non-existing creep memory:', name);
-
           };
     }
 
+    //this code currently determines how many of each type of creep should be built
+    var numHarvesters = 2;
+    var numMultiharvesters = 4;
+    var numClaimers = 0;
+    var numMiners = 4;
+    var numUpgraders = 4;
+    var numBuilders = 4;
+    var numTenders = 2;
+    var numSbuilders = 0;
 
+
+    // this section details how to make all the different types of creeps
+    //TODO: parameterize building creeps
+    //TODO: make a scheduler that ensures creeps are only built on demand
 
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     console.log('Harvesters: ' + harvesters.length);
 
-    if(harvesters.length < 4) {
+    if(harvesters.length < numHarvesters) {
         var newName = 'Harv' + Game.time;
         console.log('Spawning new harvester: ' + newName);
         Game.spawns['Straylight'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], newName,
@@ -85,13 +110,15 @@ module.exports.loop = function () {
     var multiharvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'multiharvest');
     //console.log('Multiharvesters: ' + multiharvesters.length);
 
-    if(multiharvesters.length < 5) {
+    if(multiharvesters.length < numMultiharvesters) {
         var newName = 'Fran' + Game.time;
         console.log('Spawning new multiharvester: ' + newName);
         Game.spawns['Straylight'].spawnCreep([WORK,CARRY,MOVE], newName,{memory: {role: 'multiharvest'}});
-
+    }
+       //  this code was here to help quickly (manually) adjust creep sizes
         //Game.spawns['Straylight'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE], newName,{memory: {role: 'multiharvest'}});
 
+      //  a failed attempt at try catch
       //}
        // try {
        // Game.spawns['Straylight'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], newName,{memory: {role: 'multiharvest'}});
@@ -99,7 +126,7 @@ module.exports.loop = function () {
        // console.log('Whoa! '+ err);
        // Game.spawns['Straylight'].spawnCreep([WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE], newName,{memory: {role: 'multiharvest'}});
       //}
-    }
+
 
     var claimers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer');
     //console.log('Claimers: ' + claimers.length);
@@ -141,8 +168,12 @@ module.exports.loop = function () {
     }
 
 
-        var tenders = _.filter(Game.creeps, (creep) => creep.memory.role == 'tender');
+    var tenders = _.filter(Game.creeps, (creep) => creep.memory.role == 'tender');
     //console.log('Upgraders: ' + upgraders.length);
+
+    // this is a first attempt at creating creeps for multiple rooms and stations
+    // use mod to choose every other creep and set it's memory parameters to a different job
+    //TODO: what about when you have three separate stations?  seven?
     var tenderStation = (tenders % 2)
     if (tenderStation == 1) {
         var prefsource = '5a56c7571ddd31459a8cc4ae';
@@ -184,6 +215,8 @@ module.exports.loop = function () {
             {memory: {role: 'sbuilder'}});
     }
 
+
+    // when creeps are spawning, display a message near the spawn point
     if(Game.spawns['Straylight'].spawning) {
         var spawningCreep = Game.creeps[Game.spawns['Straylight'].spawning.name];
         Game.spawns['Straylight'].room.visual.text(
@@ -192,6 +225,7 @@ module.exports.loop = function () {
             Game.spawns['Straylight'].pos.y,
             {align: 'left', opacity: 0.8});
     }
+
 
     var extensions = Game.getObjectById('EXTENSION_ID');
     if(extensions) {

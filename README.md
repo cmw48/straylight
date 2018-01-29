@@ -12,5 +12,7 @@ Level: 5  Progress: 127K / 1.21M
 
 two rooms 180122 - added E19N37
 E19N38 at lvl 6  763K of 3.64M
-Git Pull test
-Git push test
+
+two rooms 180127
+E19N38 at lvl 6  885K / 3.64M
+E19N37 75.9K / 405K
