@@ -4,16 +4,17 @@ var roleMiner     = {
     run: function(creep) {
                     // creep.memory.seeking = true;
   //creep.moveTo(creep.pos.findClosestByRange(creep.room.findExitTo('E19N37)));
- /**
+
+/**
      if (!creep.memory.staged) {
-         if (creep.pos != [room 'E19N38' pos '37,48''] )  {
+         if (creep.pos != [room 'E19N38' pos '37,48'] )  {
               Game.creeps['seamus5535071'].moveTo(17,30);
          } else {
              creep.memory.staged;
          }
     } else {
+**/
 
-  **/
      var posInAnotherRoom = new RoomPosition(34, 10, 'E19N37');
        creep.moveTo(posInAnotherRoom);
      //creep.moveTo(new RoomPosition(creep.memory.destx, creep.memory.desty, creep.memory.destroom));
@@ -56,8 +57,8 @@ var roleMiner     = {
            }
        }
 
-    //}
-	}
+     }
+	//}
 
     }
 };

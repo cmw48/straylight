@@ -2,9 +2,11 @@ var roleUpgrader = {
 
 
    run: function(creep) {
-     //var posInAnotherRoom = new RoomPosition(34, 10, 'E19N37');
-      //creep.moveTo(posInAnotherRoom);
 
+       /**
+     var posInAnotherRoom = new RoomPosition(34, 10, 'E19N37');
+      creep.moveTo(posInAnotherRoom);
+**/
        if(creep.memory.upgrading && creep.carry.energy == 0) {
            creep.memory.upgrading = false;
            creep.say('harvest');
@@ -25,7 +27,6 @@ var roleUpgrader = {
                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
            }
        }
-
 }
 };
 
@@ -56,11 +57,11 @@ var roleUpgrader = {
 
       if(creep.memory.upgrading && creep.carry.energy == 0) {
            creep.memory.upgrading = false;
-           creep.say('Ã°ÂÂÂ harvest');
+           creep.say('ÃÂ°ÃÂÃÂÃÂ harvest');
      }
      if(!creep.memory.upgrading && creep.carry.energy == creep.carryCapacity) {
          creep.memory.upgrading = true;
-         creep.say('Ã¢ÂÂ¡ upgrade');
+         creep.say('ÃÂ¢ÃÂÃÂ¡ upgrade');
      }
 
      if(creep.memory.upgrading) {

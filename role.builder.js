@@ -1,9 +1,10 @@
 var roleBuilder = {
 
     run: function(creep) {
-       if (creep.name == 'Builder5562494' || creep.name == 'Builder5562165' ) {
+       if (creep.name == 'Builder5668612' || creep.name == 'Builder5669574' ) {
           var posInAnotherRoom = new RoomPosition(34, 10, 'E19N37');
           creep.moveTo(posInAnotherRoom);
+          creep.memory.preferredSource = '5982ff24b097071b4adc227b'
         }  else {
 
 
@@ -58,7 +59,7 @@ var roleBuilder = {
             var activesource = creep.pos.findClosestByPath(FIND_SOURCES);
 
             };
-            /**
+/**
             const droppedEnergy = creep.pos.findClosestByRange(FIND_DROPPED_ENERGY);
             if(droppedEnergy) {
                 task = (creep.pickup(droppedEnergy));
@@ -71,7 +72,7 @@ var roleBuilder = {
                     creep.moveTo(35,46);
                 }
 	        }
-	       **/
+**/
 
                 if(task == ERR_NOT_IN_RANGE) {
                     creep.moveTo(activesource, {visualizePathStyle: {stroke: '#ffaa00'}});
