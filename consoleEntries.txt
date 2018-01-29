@@ -24,8 +24,8 @@ Game.creeps[name].moveTo(x, y);
 5a546f4859b5d10d959d5deb
 
 
-Ã°ÂÂÂ§ build
-Ã°ÂÂÂ harvest
+ð§ build
+ð harvest
 
 
 Neuromancer

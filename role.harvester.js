@@ -1,13 +1,6 @@
 var roleHarvester = {
 
-
-
     run: function(creep) {
-       if (creep.name == 'Harv5589741' || creep.name == 'Harv5589819' ) {
-          var posInAnotherRoom = new RoomPosition(34, 10, 'E19N37');
-          creep.moveTo(posInAnotherRoom);
-          creep.memory.preferredSource = '5982ff24b097071b4adc227b'
-        }  else {
 
         // get all the other harvester creep ids
         //if (!preferredTarget) {
@@ -79,10 +72,8 @@ var roleHarvester = {
                 //console.log('container at ' + thisContainer.pos + ' ' + thisContainer.store[RESOURCE_ENERGY]);
             };    // does this container need energy?
 
-            //var preferredTarget = creep.memory.preferredTarget;
-            preferredTarget = '5a5a55a22c05cc5a80465460'
+            var preferredTarget = creep.memory.preferredTarget;
             if (preferredTarget) {
-
                 Container = Game.getObjectById(creep.memory.preferredTarget);
         /**
                 if (Container.energy == Container.energyCapacity) {
@@ -112,9 +103,9 @@ var roleHarvester = {
                 console.log('Harv error' + (creep.transfer(Container, RESOURCE_ENERGY)))
                 //console.log('transfer successful.');
             };
-        }
 
         }
+
     }
 };
 

@@ -5,11 +5,11 @@ var roleSBuilder = {
 
 	    if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
-            creep.say('Ã°ÂÂÂ harvest');
+            creep.say('ð harvest');
 	    }
 	    if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
 	        creep.memory.building = true;
-	        creep.say('Ã°ÂÂÂ§ build');
+	        creep.say('ð§ build');
 	    }
 
 	    if(creep.memory.building) {
