@@ -21,7 +21,7 @@ module.exports.loop = function () {
         // TODO: move this to a separate function and call it only under specific circumstances
         // TODO: this needs to take multiple rooms into account
         // TODO:  consider possibly do something similar for wall building and come up with a separate app to
-        var upperroadlocations = [[14,30], [13,31], [12,32], [11,33], [10,32], [9,31], [8,31], [7,30], [6,29], [6,28],
+        var roadlocations = [[14,30], [13,31], [12,32], [11,33], [10,32], [9,31], [8,31], [7,30], [6,29], [6,28],
               [5,28], [4,28], [3,28], [6,27], [6,26], [7,25], [8,24], [9,23], [10,22], [10,21], [10,20], [11,19], [12,18],
               [13,17], [14,16], [14,15], [14,14], [14,13], [15,12], [16,11], [17,10], [18,9], [19,9], [20,10], [21,11],
               [22,11], [22,12], [22,13], [23,13], [24,13], [25,13], [26,13], [27,13], [26,12], [26,11], [26,10], [26,9],
@@ -176,28 +176,50 @@ module.exports.loop = function () {
     //TODO: what about when you have three separate stations?  seven?
     var tenderStation = (tenders % 2)
     if (tenderStation == 1) {
-        var prefsource = '5a56c7571ddd31459a8cc4ae';
+        var prefsource = '5982ff24b097071b4adc2278';
         var preftarget = '5a5a55a22c05cc5a80465460';
         var prefstation = new RoomPosition(27, 10, 'E19N38');
     } else {
-        var prefsource = '5a57d5a03fa82652d0b2659a';
-        var preftarget = '5a5063e77eb2135e2c99df24';
+        var prefsource = '5982ff24b097071b4adc2278';
+        var preftarget = '5a5a55a22c05cc5a80465460';
         var prefstation = new RoomPosition(10, 33, 'E19N38');
     }
+    var tenders = _.filter(Game.creeps, (creep) => creep.memory.role == 'tender');
+    var numtenders = tenders.length;
+    var nexttender = 0;
 
-    if(tenders.length < 2) {
+    var maxtenders = 4;
+    if (numtenders == maxtenders) {
+        nexttender = 1;
+    } else {
+        nexttender = numtenders + 1;
+    }
+
+    console.log('tender count ' + numtenders + ' mod ' + (nexttender % 2) + ' nexttender is' + nexttender);
+    if ((nexttender == 1) || (nexttender == 3)) {
+        var prefsource = '5982ff24b097071b4adc2278';
+        var preftarget = '5a5a55a22c05cc5a80465460';
+        var prefstation = new RoomPosition(27, 10, 'E19N38');
+    } else {
+        var prefsource = '5a60dd822e9d8509b821953e';
+        var preftarget = '5a5063e77eb2135e2c99df24';
+        var prefstation = new RoomPosition(9, 33, 'E19N38');
+    }
+
+    if(numtenders < maxtenders) {
         var newName = 'Fanny' + Game.time;
         console.log('Spawning new tender: ' + newName);
         //Game.spawns['Straylight'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
         Game.spawns['Straylight'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], newName,
-            {memory: {role: 'tender', working: 'loading', preferredSource: prefsource, preferredTarget: preftarget, preferredStation: prefstation}});
+            {memory: {role: 'tender', working: 'loading', preferredSource: prefsource, preferredTarget: preftarget, preferredStation: prefstation, groupnum: nexttender}});
     }
+
 
 
     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
     //console.log('Builders: ' + builders.length);
 
-    if(builders.length < 4) {
+    if(builders.length < 2) {
         var newName = 'Builder' + Game.time;
         console.log('Spawning new builder: ' + newName);
         Game.spawns['Straylight'].spawnCreep([WORK,WORK,WORK,WORK,WORK,CARRY,CARRY,CARRY,CARRY,CARRY,MOVE,MOVE,MOVE,MOVE,MOVE], newName,
