@@ -21,4 +21,9 @@ two rooms 180130
 E19N38 at lvl 6  972K / 3.64M
 E19N37 at lvl 4 181K / 405K
 
+two rooms 180202
+E19N38 at lvl 6 1.05M / 3.64M
+E19N37 at lvl 4 260K / 405K
+
 established in github 180130 15:00
+refreshed 180201 23:38
